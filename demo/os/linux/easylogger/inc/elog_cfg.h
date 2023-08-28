@@ -32,7 +32,7 @@
 /* enable log output. default open this macro */
 #define ELOG_OUTPUT_ENABLE
 /* enable terminal output. default open this macro */
-#define ELOG_TERMINAL_ENABLE
+// #define ELOG_TERMINAL_ENABLE
 /* enable log write file. default open this macro */
 #define ELOG_FILE_ENABLE
 /* enable flush file cache. default open this macro */
@@ -54,7 +54,7 @@
 /* output newline sign */
 #define ELOG_NEWLINE_SIGN                    "\n"
 /* enable log color */
-#define ELOG_COLOR_ENABLE
+// #define ELOG_COLOR_ENABLE
 /* enable asynchronous output mode */
 #define ELOG_ASYNC_OUTPUT_ENABLE
 /* the highest output level for async mode, other level will sync output */

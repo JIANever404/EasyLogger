@@ -43,13 +43,13 @@ static pthread_mutex_t output_lock;
  *
  * @return result
  */
-ElogErrCode elog_port_init(void) {
+ElogErrCode elog_port_init(char *file, size_t maxSize, int maxRotate) {
     ElogErrCode result = ELOG_NO_ERR;
 
     pthread_mutex_init(&output_lock, NULL);
 
 #ifdef ELOG_FILE_ENABLE
-    elog_file_init();
+    elog_file_init(file, maxSize, maxRotate);
 #endif
 
     return result;
@@ -141,7 +141,7 @@ const char *elog_port_get_p_info(void) {
 const char *elog_port_get_t_info(void) {
     static char cur_thread_info[10] = { 0 };
 
-    snprintf(cur_thread_info, 10, "tid:%04d", syscall(SYS_gettid));
+    snprintf(cur_thread_info, 10, "tid:%04ld", syscall(SYS_gettid));
 
     return cur_thread_info;
 }

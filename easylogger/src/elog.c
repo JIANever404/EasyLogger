@@ -155,8 +155,8 @@ extern void elog_port_output_unlock(void);
  *
  * @return result
  */
-ElogErrCode elog_init(void) {
-    extern ElogErrCode elog_port_init(void);
+ElogErrCode elog_init(char *file, size_t maxSize, int maxRotate) {
+    extern ElogErrCode elog_port_init(char *file, size_t maxSize, int maxRotate);
     extern ElogErrCode elog_async_init(void);
 
     ElogErrCode result = ELOG_NO_ERR;
@@ -166,7 +166,7 @@ ElogErrCode elog_init(void) {
     }
 
     /* port initialize */
-    result = elog_port_init();
+    result = elog_port_init(file, maxSize, maxRotate);
     if (result != ELOG_NO_ERR) {
         return result;
     }
@@ -314,10 +314,12 @@ bool elog_get_output_enabled(void) {
  * @param level level
  * @param set format set
  */
-void elog_set_fmt(uint8_t level, size_t set) {
-    ELOG_ASSERT(level <= ELOG_LVL_VERBOSE);
-
-    elog.enabled_fmt_set[level] = set;
+// void elog_set_fmt(uint8_t level, size_t set)
+void elog_set_fmt(void)
+{
+    // ELOG_ASSERT(level <= ELOG_LVL_VERBOSE);
+    for (int i = 0; i < ELOG_LVL_TOTAL_NUM; i++)
+        elog.enabled_fmt_set[i] = ELOG_FMT_ALL;
 }
 
 /**

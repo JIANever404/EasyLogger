@@ -32,24 +32,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <time.h>
 
 static void test_elog(void);
 
 int main(void) {
+    srand(time(NULL));
+    int random_value = rand() % 1000;
+    char filename[500];
+    snprintf(filename, sizeof(filename), "/home/zz/workspace/logProject/EasyLogger/demo/os/linux/out/file%d.log", random_value);
     /* close printf buffer */
-    setbuf(stdout, NULL);
-    /* initialize EasyLogger */
-    elog_init();
+    // setbuf(stdout, NULL);
+    /* initialize EasyLogger */ 
+    elog_init(filename, (1*1024*1024), 5);
     /* set EasyLogger log format */
-    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
-    elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
-    elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
-    elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
-    elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
-    elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
-#ifdef ELOG_COLOR_ENABLE
-    elog_set_text_color_enabled(true);
-#endif
+    elog_set_fmt();
+    // elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    // elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    // elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    // elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
+    // elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
+// #ifdef ELOG_COLOR_ENABLE
+//     elog_set_text_color_enabled(true);
+// #endif
     /* start EasyLogger */
     elog_start();
 
@@ -81,6 +87,9 @@ void test_elog(void) {
     {
         buf[i] = i;
     }
+    struct timespec delay;
+    delay.tv_sec = 0;
+    delay.tv_nsec = 100000000;  // 100 毫秒 = 100000000 纳秒
     while(true) {
         /* test log output for all level */
         log_a("Hello EasyLogger!");
@@ -90,7 +99,7 @@ void test_elog(void) {
         log_d("Hello EasyLogger!");
         log_v("Hello EasyLogger!");
 //        elog_raw("Hello EasyLogger!");
-        elog_hexdump("test", 16, buf, sizeof(buf));
-        sleep(5);
+        // elog_hexdump("test", 16, buf, sizeof(buf));
+        nanosleep(&delay, NULL);
     }
 }

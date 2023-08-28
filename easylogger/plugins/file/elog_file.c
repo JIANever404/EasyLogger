@@ -40,7 +40,7 @@ static bool init_ok = false;
 static FILE *fp = NULL;
 static ElogFileCfg local_cfg;
 
-ElogErrCode elog_file_init(void)
+ElogErrCode elog_file_init(char *file, size_t maxSize, int maxRotate)
 {
     ElogErrCode result = ELOG_NO_ERR;
     ElogFileCfg cfg;
@@ -50,9 +50,9 @@ ElogErrCode elog_file_init(void)
 
     elog_file_port_init();
 
-    cfg.name = ELOG_FILE_NAME;
-    cfg.max_size = ELOG_FILE_MAX_SIZE;
-    cfg.max_rotate = ELOG_FILE_MAX_ROTATE;
+    cfg.name = file;
+    cfg.max_size = maxSize;
+    cfg.max_rotate = maxRotate;
 
     elog_file_config(&cfg);
 
